@@ -23,3 +23,12 @@
         </div>
     </div>
 </x-app-layout>
+
+@vite('resources/js/app.js')
+
+<script type="module">
+    Echo.channel('chat-room')
+    .listen('MessageSent', (e) => {
+        console.log(e.message);
+    });
+</script>
