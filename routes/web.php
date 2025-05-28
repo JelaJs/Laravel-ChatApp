@@ -18,9 +18,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-/*
- app_id = "1999494"
-key = "f604b54d4a934d348f62"
-secret = "b14bd72fdd536a4805c7"
-cluster = "eu"
- */
