@@ -39,7 +39,7 @@
 <script type="module">
     const form = document.querySelector('.sendMessageForm');
     let receiver_id = {{$receive_user->id}};
-
+    console.log("{{$conversation_id}}");
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -66,7 +66,7 @@
 </script>
 
 <script type="module">
-    Echo.channel('chat-room')
+    Echo.channel("{{$conversation_id}}")
         .listen('MessageSent', (e) => {
 
             if(e.message !== null) {

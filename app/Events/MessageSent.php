@@ -20,11 +20,13 @@ class MessageSent implements ShouldBroadcast
     public $message;
     public $sender_id;
     public $receiver_id;
-    public function __construct($message, $sender_id, $receiver_id)
+    public $conversation_id;
+    public function __construct($message, $sender_id, $receiver_id, $conversation_id)
     {
         $this->message = $message;
         $this->sender_id = $sender_id;
         $this->receiver_id = $receiver_id;
+        $this->conversation_id = $conversation_id;
     }
 
     /**
@@ -35,7 +37,7 @@ class MessageSent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('chat-room'),
+            new Channel("$this->conversation_id"),
             //new PrivateChannel('channel-name'),
         ];
     }
