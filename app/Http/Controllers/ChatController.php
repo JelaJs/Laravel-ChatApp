@@ -18,7 +18,9 @@ class ChatController extends Controller
     {
         $conversation = $chatService->getConversation($user->id);
 
-        $chat = Chat::where('conversation_id', $conversation->conversation_id)->get();
+        $chat = Chat::where('conversation_id', $conversation->conversation_id)
+            ->orderBy('created_at', 'asc')
+            ->get();
 
         return view('chat', [
             'receive_user' => $user,
@@ -27,18 +29,11 @@ class ChatController extends Controller
         ]);
     }
 
-    public function sendMessage(MessageRequest $request)
+    public function sendMessage(MessageRequest $request, ChatService $chatService)
     {
-        $conversation1 = Conversation::where('receiver_id', $request->receiver_id)->where('sender_id', Auth::id())->first();
-        $conversation2 = Conversation::where('receiver_id', Auth::id())->where('sender_id', $request->receiver_id)->first();
-
-        $conversation = $conversation1 ?? $conversation2;
+        $conversation = $chatService->getConversation($request->receiver_id);
         MessageSent::dispatch($request->message, Auth::id(), $request->receiver_id, $conversation->conversation_id);
 
-        Chat::create([
-            'sender_id' => Auth::id(),
-            'conversation_id' => $conversation->conversation_id,
-            'message' => $request->message
-        ]);
+        $chatService->createMessage($request->message, $conversation->conversation_id);
     }
 }
