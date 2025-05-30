@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSent;
+use App\Http\Requests\MessageRequest;
 use App\Models\Chat;
 use App\Models\Conversation;
 use App\Models\User;
@@ -29,6 +30,7 @@ class ChatController extends Controller
         }
 
         $chat = Chat::where('conversation_id', $conversation->conversation_id)->get();
+
         return view('chat', [
             'receive_user' => $user,
             'conversation_id' => $conversation->conversation_id,
@@ -36,7 +38,7 @@ class ChatController extends Controller
         ]);
     }
 
-    public function sendMessage(Request $request)
+    public function sendMessage(MessageRequest $request)
     {
         $conversation1 = Conversation::where('receiver_id', $request->receiver_id)->where('sender_id', Auth::id())->first();
         $conversation2 = Conversation::where('receiver_id', Auth::id())->where('sender_id', $request->receiver_id)->first();

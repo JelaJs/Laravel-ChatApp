@@ -37,7 +37,7 @@
                     <form class="sendMessageForm" method="POST" action="{{route('chat.sendMessage')}}">
                         @csrf
                         @if($errors->any())
-                            {{$errors->first}}
+                            {{$errors->first()}}
                         @endif
 
                         <input class="message" name="message" placeholder="type message...">
