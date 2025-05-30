@@ -18,7 +18,22 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div id="chat-body"></div>
+                    <div id="chat-body">
+                        @if($chat)
+                            @foreach($chat as $message)
+                                @if($message->sender_id == auth()->id())
+                                    <div style="color:blue">
+                                        <p>{{$message->message}}</p>
+                                    </div>
+                                @else
+                                    <div style="color:red">
+                                        <p>{{$message->message}}</p>
+                                    </div>
+                                @endif
+
+                            @endforeach
+                        @endif
+                    </div>
                     <form class="sendMessageForm" method="POST" action="{{route('chat.sendMessage')}}">
                         @csrf
                         @if($errors->any())
