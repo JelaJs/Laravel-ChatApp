@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Events\MessageSent;
 use App\Http\Requests\MessageRequest;
 use App\Models\Chat;
-use App\Models\Conversation;
 use App\Models\User;
 use App\Services\ChatService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
