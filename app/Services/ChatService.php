@@ -10,17 +10,24 @@ class ChatService
 {
     public function getConversation($userId)
     {
+        $conversation = $this->getActiveConversation($userId);
+
+        if($conversation) {
+            return $conversation;
+        }
+
+        return Conversation::create([
+            'sender_id' => Auth::id(),
+            'receiver_id' => $userId,
+            'conversation_id' => Str::uuid(),
+        ]);
+    }
+
+    public function getActiveConversation($userId)
+    {
         $conversation1 = Conversation::where('receiver_id', $userId)->where('sender_id', Auth::id())->first();
         $conversation2 = Conversation::where('receiver_id', Auth::id())->where('sender_id', $userId)->first();
 
-        if(!$conversation1 && !$conversation2) {
-            return Conversation::create([
-                'sender_id' => Auth::id(),
-                'receiver_id' => $userId,
-                'conversation_id' => Str::uuid(),
-            ]);
-        } else {
-            return $conversation1 ?? $conversation2;
-        }
+        return $conversation1 ?? $conversation2;
     }
 }
