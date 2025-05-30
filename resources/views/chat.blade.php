@@ -73,7 +73,7 @@
 <script type="module">
     const form = document.querySelector('.sendMessageForm');
     let receiver_id = {{$receive_user->id}};
-    console.log("{{$conversation_id}}");
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -107,7 +107,6 @@
                 let user_id = {{auth()->id()}};
 
                 if(e.sender_id == user_id) {
-                    console.log('prvi uslov proso');
                     document.querySelector('#chat-body').insertAdjacentHTML("beforeend", `
                    <div class="flex justify-end">
                         <div class="bg-blue-500 text-white px-4 py-2 rounded-lg max-w-xs text-sm shadow">
@@ -118,7 +117,6 @@
                 }
 
                 if(parseInt(e.receiver_id) == user_id) {
-                    console.log('drugi uslov proso');
                     document.querySelector('#chat-body').insertAdjacentHTML("beforeend", `
                    <div class="flex justify-start">
                         <div class="bg-gray-300 text-black px-4 py-2 rounded-lg max-w-xs text-sm shadow">
