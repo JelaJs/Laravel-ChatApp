@@ -106,7 +106,7 @@
             if(e.message !== null) {
                 let user_id = {{auth()->id()}};
 
-                if(e.sender_id == user_id) {
+                if(e.sender_id === user_id) {
                     document.querySelector('#chat-body').insertAdjacentHTML("beforeend", `
                    <div class="flex justify-end">
                         <div class="bg-blue-500 text-white px-4 py-2 rounded-lg max-w-xs text-sm shadow">
@@ -116,7 +116,7 @@
                 `);
                 }
 
-                if(parseInt(e.receiver_id) == user_id) {
+                if(parseInt(e.receiver_id) === user_id) {
                     document.querySelector('#chat-body').insertAdjacentHTML("beforeend", `
                    <div class="flex justify-start">
                         <div class="bg-gray-300 text-black px-4 py-2 rounded-lg max-w-xs text-sm shadow">
