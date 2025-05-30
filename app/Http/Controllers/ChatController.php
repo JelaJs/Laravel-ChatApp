@@ -7,27 +7,16 @@ use App\Http\Requests\MessageRequest;
 use App\Models\Chat;
 use App\Models\Conversation;
 use App\Models\User;
+use App\Services\ChatService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
-    public function show(User $user)
+    public function show(ChatService $chatService, User $user)
     {
-        $conversation = null;
-        $conversation1 = Conversation::where('receiver_id', $user->id)->where('sender_id', Auth::id())->first();
-        $conversation2 = Conversation::where('receiver_id', Auth::id())->where('sender_id', $user->id)->first();
-
-        if(!$conversation1 && !$conversation2) {
-           $conversation = Conversation::create([
-                'sender_id' => Auth::id(),
-                'receiver_id' => $user->id,
-                'conversation_id' => Str::uuid(),
-            ]);
-        } else {
-            $conversation = $conversation1 ?? $conversation2;
-        }
+        $conversation = $chatService->getConversation($user->id);
 
         $chat = Chat::where('conversation_id', $conversation->conversation_id)->get();
 
