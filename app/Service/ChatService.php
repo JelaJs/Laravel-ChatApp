@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatService
 {
-    public function getActiveConversation($userId): Conversation|null
+    public function getActiveConversation(int $userId): Conversation|null
     {
         $conversation1 = Conversation::where('receiver_id', $userId)->where('sender_id', Auth::id())->first();
         $conversation2 = Conversation::where('receiver_id', Auth::id())->where('sender_id', $userId)->first();

@@ -10,10 +10,11 @@ use App\Models\User;
 use App\Service\ChatService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class ChatController extends Controller
 {
-    public function show(ChatService $chatService, User $user)
+    public function show(ChatService $chatService, User $user): View
     {
         $conversation = $chatService->getActiveConversation($user->id);
 
@@ -36,7 +37,7 @@ class ChatController extends Controller
         ]);
     }
 
-    public function sendMessage(MessageRequest $request, ChatService $chatService)
+    public function sendMessage(MessageRequest $request, ChatService $chatService): void
     {
         $conversation = $chatService->getActiveConversation($request->receiver_id);
         MessageSent::dispatch($request->message, Auth::id(), $request->receiver_id, $conversation->conversation_id);
