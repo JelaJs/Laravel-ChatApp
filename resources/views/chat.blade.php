@@ -19,8 +19,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div id="chat-body" class="p-4 space-y-2 h-[500px] overflow-y-auto bg-gray-100 rounded-lg">
-                        @if($chat)
-                            @foreach($chat as $message)
+                        @if($conversation->messages)
+                            @foreach($conversation->messages as $message)
                                 @if($message->sender_id == auth()->id())
                                     <!-- Sent message (by me) -->
                                     <div class="flex justify-end">
@@ -100,7 +100,7 @@
 </script>
 
 <script type="module">
-    Echo.channel("{{$conversation_id}}")
+    Echo.channel("{{$conversation->conversation_id}}")
         .listen('MessageSent', (e) => {
 
             if(e.message !== null) {

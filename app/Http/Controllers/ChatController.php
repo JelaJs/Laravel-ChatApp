@@ -26,14 +26,9 @@ class ChatController extends Controller
             ]);
         }
 
-        $chat = Chat::where('conversation_id', $conversation->conversation_id)
-            ->orderBy('created_at', 'asc')
-            ->get();
-
         return view('chat', [
             'receive_user' => $user,
-            'conversation_id' => $conversation->conversation_id,
-            'chat' => $chat,
+            'conversation' => $conversation,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Conversation extends Model
 {
@@ -14,4 +15,9 @@ class Conversation extends Model
         'receiver_id',
         'conversation_id',
     ];
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Chat::class, 'conversation_id', 'conversation_id');
+    }
 }
