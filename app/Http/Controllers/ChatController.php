@@ -7,14 +7,15 @@ use App\Http\Requests\MessageRequest;
 use App\Models\Chat;
 use App\Models\Conversation;
 use App\Models\User;
+use App\Service\ChatService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
-    public function show(User $user)
+    public function show(ChatService $chatService, User $user)
     {
-        $conversation = $this->getActiveConversation($user->id);
+        $conversation = $chatService->getActiveConversation($user->id);
 
         if(!$conversation) {
             $conversation = Conversation::create([
@@ -35,9 +36,9 @@ class ChatController extends Controller
         ]);
     }
 
-    public function sendMessage(MessageRequest $request)
+    public function sendMessage(MessageRequest $request, ChatService $chatService)
     {
-        $conversation = $this->getActiveConversation($request->receiver_id);
+        $conversation = $chatService->getActiveConversation($request->receiver_id);
         MessageSent::dispatch($request->message, Auth::id(), $request->receiver_id, $conversation->conversation_id);
 
         Chat::create([
@@ -45,13 +46,5 @@ class ChatController extends Controller
             'conversation_id' => $conversation->conversation_id,
             'message' => $request->message
         ]);
-    }
-
-    public function getActiveConversation($userId)
-    {
-        $conversation1 = Conversation::where('receiver_id', $userId)->where('sender_id', Auth::id())->first();
-        $conversation2 = Conversation::where('receiver_id', Auth::id())->where('sender_id', $userId)->first();
-
-        return $conversation1 ?? $conversation2;
     }
 }
