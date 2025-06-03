@@ -17,9 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::controller(ChatController::class)->name('chat.')->group(function () {
-        Route::get('/chat/{user}', 'show')->name('show');
-        Route::post('send-message', 'sendMessage')->name('sendMessage');
+    Route::controller(ChatController::class)->prefix('/chat')->name('chat.')->group(function () {
+        Route::get('/{user}', 'show')->name('show');
+        Route::post('/message', 'sendMessage')->name('sendMessage');
     });
 });
 
